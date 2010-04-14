@@ -9,22 +9,11 @@ str = strel('disk', 3);         %Round structuring element
 dilIm = imdilate(bw, str);      %Dilates the image
 labelim = bwlabel(~dilIm);      %Creates a labeled image
 
-% close all                       %Closes all of the other figures
-% figure()
-% imshow(labelim, [])
-% title('Labeled Image')
-% figure()
-% imshow(dilIm,[])
-% title('Dilated Binary Image');
-% figure()
-% imshow(bw,[])
-% title('Binary Image')
-
 maLen = regionprops(labelim, 'MajorAxisLength');        %Finds the length of the Major Axis of every connected component in the image
 miLen = regionprops(labelim, 'MinorAxisLength');        %Finds the length of the Minor Axis of every connected component in the image
 Area = regionprops(labelim, 'Area');                    %Finds the area of every connected component of the image
 
-numConnComp = max(max(labelim));                        %Finds the number of connected components
+numConnComp = max(labelim(:));                        %Finds the number of connected components
 loc = [];                                               %loc stores the connected component number that meet the large circular requirements I have specified below
 roundness = zeros(numConnComp,1);                       %Roundness stores the value of the major axis length/minor axis length, this should ideally be very close to one for circular objects
 
@@ -59,10 +48,6 @@ for x=1:rows
         end
     end
 end
-
-
-% figure
-% imshow(newIm,[])                                        %Shows the new frame with artery segmentation
 
 out = newIm;
 end
