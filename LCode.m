@@ -4,8 +4,8 @@ no_ims = size(data,3);
 colormap jet
 
 for i =1:no_ims
-        imagesc(findArtery(data(:,:,i)));%Calls the other function
-        F(i) = getframe; 
+    imagesc(findArtery(data(:,:,i)));%Calls the other function
+    F(i) = getframe;
 end
 
 close all
@@ -40,7 +40,7 @@ miLen = regionprops(labelim, 'MinorAxisLength');        %Finds the length of the
 Area = regionprops(labelim, 'Area');                    %Finds the area of every connected component of the image
 
 numConnComp = max(max(labelim));                        %Finds the number of connected components
-loc = [];                                               %loc stores the connected component number that meet the large circular requirements I have specified below 
+loc = [];                                               %loc stores the connected component number that meet the large circular requirements I have specified below
 roundness = zeros(numConnComp,1);                       %Roundness stores the value of the major axis length/minor axis length, this should ideally be very close to one for circular objects
 
 for m = 1:numConnComp                                   %Goes through all of the connected components
@@ -61,7 +61,7 @@ if length(loc)>1                                        %Error checking
     end
     loc = oldloc;
 elseif length(loc)<1
-    error('No connected componenet fits the data, the requirements are too restrictive, try adjusting line 71');    
+    error('No connected componenet fits the data, the requirements are too restrictive, try adjusting line 71');
 else
     clc
 end
