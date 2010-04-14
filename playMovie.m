@@ -1,37 +1,15 @@
 function playMovie(data)
 
 no_ims = size(data,3);
+colormap jet
+
 for i =1:no_ims
         imagesc(findArtery(data(:,:,i)));%Calls the other function
         F(i) = getframe; 
 end
 
+close all
 movie(F,1)
-
-%     artery = uint8(data);
-%     no_ims = size(artery,3);
-% 
-%     map = colormap('gray');
-%     close all
-% 
-%     for m = 1:no_ims
-% %        frame_jet(m) = im2frame(artery(:,:,m), map);
-%         frame_jet(m) = im2frame(artery(:,:,m), map);
-%     end
-%     
-%     figure()
-%     movie(frame_jet, 2);
-
-% artery = data;
-% no_ims = size(artery,3);
-% 
-% map = colormap('gray');
-% for m = 1:no_ims
-%    imagesc(artery(:, :, m));
-%    F(m) = getframe;
-% end
-% 
-% movie(F, 2);
 
 end
 
@@ -67,9 +45,9 @@ roundness = zeros(numConnComp,1);                       %Roundness stores the va
 
 for m = 1:numConnComp                                   %Goes through all of the connected components
     roundness(m) = maLen(m).MajorAxisLength./miLen(m).MinorAxisLength;      %Finds the roundness
-    if Area(m).Area>3000 && roundness(m)<1.5            %Finds objects with large areas that have roundness close to one
+    if Area(m).Area>3000 && roundness(m)<1.2            %Finds objects with large areas that have roundness close to one
         loc = [loc m];                                  %Stores the connected components that meet this requirement
-        [Area(m).Area roundness(m)]
+        [m roundness(m)]
     end
 end
 
@@ -77,11 +55,15 @@ if length(loc)>1                                        %Error checking
     warning('More than one space fits the criteria');
     oldloc = 1;
     for i=2:length(loc)
-        if roundness(i)> roundness(oldloc)
+        if roundness(i)< roundness(oldloc)
             oldloc = i;
         end
     end
     loc = oldloc;
+elseif length(loc)<1
+    error('No connected componenet fits the data, the requirements are too restrictive, try adjusting line 71');    
+else
+    clc
 end
 
 newIm = in;                                             %Sets what hopefully is now the segmented artery to 255 in the frame
@@ -98,5 +80,4 @@ end
 % imshow(newIm,[])                                        %Shows the new frame with artery segmentation
 
 out = newIm;
-clc
 end
