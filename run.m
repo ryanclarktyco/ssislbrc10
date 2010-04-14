@@ -1,0 +1,2 @@
+% runs project
+playMovie(data);
