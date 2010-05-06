@@ -7,7 +7,7 @@ minLen =zeros(no_ims,1);
 majLen = zeros(no_ims,1);
 
 for i =1:no_ims
-        [out fIm min max a] = findArtery(data(:,:,i));
+        [out fIm min max a] = findArtery(data(:,:,i),iswhite);
         imagesc(out);%Calls the other function
         F(i) = getframe; 
         imagesc(fIm);
