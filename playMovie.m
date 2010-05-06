@@ -1,4 +1,4 @@
-function playMovie(data)
+function playMovie(data, iswhite)
 
 no_ims = size(data,3);
 colormap gray

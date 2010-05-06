@@ -1,10 +1,14 @@
-function [out fIm minorLength majorLength A] = findArtery(in)
+function [out fIm minorLength majorLength A] = findArtery(in, iswhite)
 %Input should be a slice of the image
 
 [rows cols] = size(in);         %Finds the size of the image, used in looping later
 
 thresh = mean(mean(in));        %Finds the average of the image
-bw = in > thresh;               %White pixels are above the average, black are below at at the average
+if(iswhite)
+    bw = in < thresh;
+else
+    bw = in > thresh;               %White pixels are above the average, black are below at at the average
+end
 str = strel('disk', 3);         %Round structuring element
 imC = imclose(bw, str);      %Dilates the image
 erIm = imerode(~imC, str);
