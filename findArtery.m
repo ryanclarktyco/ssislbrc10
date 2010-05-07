@@ -19,7 +19,7 @@ miLen = regionprops(labelim, 'MinorAxisLength');        %Finds the length of the
 Area = regionprops(labelim, 'Area');                    %Finds the area of every connected component of the image
 
 numConnComp = max(max(labelim));                        %Finds the number of connected components
-loc = [];                                               %loc stores the connected component number that meet the large circular requirements I have specified below 
+loc = [];                                               %loc stores the connected component number that meet the large circular requirements I have specified below
 roundness = zeros(numConnComp,1);                       %Roundness stores the value of the major axis length/minor axis length, this should ideally be very close to one for circular objects
 
 for m = 1:numConnComp                                   %Goes through all of the connected components
@@ -28,7 +28,7 @@ for m = 1:numConnComp                                   %Goes through all of the
         minorLength = miLen(m).MinorAxisLength;
         majorLength = maLen(m).MajorAxisLength;
         roundness(m) = maLen(m).MajorAxisLength./miLen(m).MinorAxisLength;      %Finds the roundness
-%         A = Area(m).Area;
+        %         A = Area(m).Area;
     end
 end
 
@@ -49,17 +49,17 @@ if length(loc)>1                                        %Error checking
     loc = oldloc;
 elseif length(loc)<1
     disp(' ')
-    error('No connected componenet fits the data, the requirements are too restrictive');    
+    error('No connected componenet fits the data, the requirements are too restrictive');
 else
     clc
 end
 
- fIms = regionprops(labelim, 'FilledImage');
- bBoxs = regionprops(labelim, 'BoundingBox');
- fIm = fIms(loc).FilledImage;
- bBox = bBoxs(loc).BoundingBox;
- 
- out = bw;
+fIms = regionprops(labelim, 'FilledImage');
+bBoxs = regionprops(labelim, 'BoundingBox');
+fIm = fIms(loc).FilledImage;
+bBox = bBoxs(loc).BoundingBox;
+
+out = bw;
 %  out(floor(bBox(2)):floor(bBox(2))+bBox(4)-1,
 %  floor(bBox(1)):floor(bBox(1))+bBox(3)-1) = fIm;
 
@@ -71,7 +71,7 @@ for x = 1:bBox(4)-1
     end
 end
 
- 
+
 
 % newIm = in;                                             %Sets what hopefully is now the segmented artery to 255 in the frame
 % for x=1:rows

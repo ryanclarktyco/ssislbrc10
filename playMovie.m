@@ -7,14 +7,14 @@ minLen =zeros(no_ims,1);
 majLen = zeros(no_ims,1);
 
 for i =1:no_ims
-        [out fIm min max a] = findArtery(data(:,:,i),iswhite);
-        imagesc(out);%Calls the other function
-        F(i) = getframe; 
-        imagesc(fIm);
-        F2(i) = getframe;
-        Area(i) = a;
-        minLen(i) = min;
-        majLen(i) = max;
+    [out fIm min max a] = findArtery(data(:,:,i),iswhite);
+    imagesc(out);%Calls the other function
+    F(i) = getframe;
+    imagesc(fIm);
+    F2(i) = getframe;
+    Area(i) = a;
+    minLen(i) = min;
+    majLen(i) = max;
 end
 close all
 movie(F,1)
