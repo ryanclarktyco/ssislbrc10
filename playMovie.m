@@ -27,7 +27,7 @@ plot(Area)
 title('Area')
 
 subplot(2,1,2);
-plot(1:48, minLen, 1:48, majLen)
+plot(1:no_ims, minLen, 1:no_ims, majLen)
 legend('Minor Axis Length', 'Major Axis Length');
 
 end

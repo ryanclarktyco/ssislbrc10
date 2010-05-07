@@ -3,7 +3,7 @@ function [out fIm minorLength majorLength A] = findArtery(in, iswhite)
 
 [rows cols] = size(in);         %Finds the size of the image, used in looping later
 
-thresh = mean(mean(in));        %Finds the average of the image
+thresh = mean(in(:));        %Finds the average of the image
 if(iswhite)
     bw = in < thresh;
 else
@@ -18,7 +18,7 @@ maLen = regionprops(labelim, 'MajorAxisLength');        %Finds the length of the
 miLen = regionprops(labelim, 'MinorAxisLength');        %Finds the length of the Minor Axis of every connected component in the image
 Area = regionprops(labelim, 'Area');                    %Finds the area of every connected component of the image
 
-numConnComp = max(max(labelim));                        %Finds the number of connected components
+numConnComp = max(labelim(:));                        %Finds the number of connected components
 loc = [];                                               %loc stores the connected component number that meet the large circular requirements I have specified below
 roundness = zeros(numConnComp,1);                       %Roundness stores the value of the major axis length/minor axis length, this should ideally be very close to one for circular objects
 
@@ -62,11 +62,16 @@ bBox = bBoxs(loc).BoundingBox;
 out = bw;
 %  out(floor(bBox(2)):floor(bBox(2))+bBox(4)-1,
 %  floor(bBox(1)):floor(bBox(1))+bBox(3)-1) = fIm;
+for i = 1:length(bBox)
+    if(bBox(i) < 1)
+        bBox(i) = bBox(i) + 1;
+    end
+end
 
 for x = 1:bBox(4)-1
     for y = 1:bBox(3)-1
         if fIm(x,y) == 1
-            out(floor(bBox(2))+x-1, floor(bBox(1))+y -1) = 0;
+            out(floor(bBox(2))+x-1, floor(bBox(1))+y -1) = iswhite;
         end
     end
 end
